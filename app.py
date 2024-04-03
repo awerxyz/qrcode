@@ -24,7 +24,7 @@ class QRCodeGeneratorApp:
         self.data_entry.pack(pady=20)
 
         # Create a "More Options" Button
-        self.more_options_button = tk.Button(self.root, text="More Options", command=self.show_options)
+        self.more_options_button = tk.Button(self.root, text="More Options", command=self.toggle_options)
         self.more_options_button.pack(pady=10)
 
         # Additional Options Frame (Initially Hidden)
@@ -50,10 +50,13 @@ class QRCodeGeneratorApp:
         self.background_color_entry3 = tk.Entry(self.options_frame)
         self.background_color_entry3.pack()
 
-    def show_options(self):
-        self.options_frame.pack()
-
-        # Define your GUI components and logic here
+    def toggle_options(self):
+        if (self.options_frame.winfo_ismapped()):
+            self.options_frame.pack_forget()
+            self.more_options_button.config(text="More Options")
+        else:
+            self.options_frame.pack()
+            self.more_options_button.config(text="Less Options")
 
 if __name__ == "__main__":
     root = tk.Tk()
