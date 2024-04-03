@@ -1,7 +1,4 @@
 import tkinter as tk
-from tkinter import filedialog
-import qrcode
-from PIL import ImageTk, Image
 from styles import style_labels, style_buttons, style_frames, style_entries
 
 class QRCodeGeneratorApp:
@@ -13,12 +10,6 @@ class QRCodeGeneratorApp:
         self.preview_label = tk.Label(self.root, text="Instructions:\nEnter the data to encode into the QR code.\nClick 'generate' to generate the QR code preview. \n Click 'save' to save the generated picture on your machine.\n")
         self.preview_label.pack(pady=10)
 
-        '''
-        Later, when the user generates the QR code, you can update the text of self.preview_label 
-        with the generated QR code image using the configure method: 
-            self.preview_label.configure(image=qr_code_image)
-        '''
-        
         # enter data label & field
         self.data_label = tk.Label(self.root, text="Enter Data:")
         self.data_label.pack()
@@ -57,13 +48,13 @@ class QRCodeGeneratorApp:
         self.button_frame.pack(pady=10)
 
         # Generate, Save, Clear buttons
-        self.generate_button = tk.Button(self.button_frame, text="Generate", command=self.generate_qr_code)
+        self.generate_button = tk.Button(self.button_frame, text="Generate")
         self.generate_button.pack(side="left", padx=5, pady=(0,10))
 
-        self.save_button = tk.Button(self.button_frame, text="Save", command=self.save_qr_code)
+        self.save_button = tk.Button(self.button_frame, text="Save")
         self.save_button.pack(side="left", padx=5, pady=(0,10))
 
-        self.clear_button = tk.Button(self.button_frame, text="Clear", command=self.clear_data)
+        self.clear_button = tk.Button(self.button_frame, text="Clear")
         self.clear_button.pack(side="left", padx=5, pady=(0,10))
 
         # styles
@@ -86,45 +77,6 @@ class QRCodeGeneratorApp:
         else:
             self.options_frame.pack()
             self.more_options_button.config(text="Less Options")
-
-    def generate_qr_code(self):
-        # Add logic to generate QR code based on data_entry field
-        pass
-
-    def save_qr_code(self):
-        # Add logic to save the generated QR code
-        pass
-
-    def clear_data(self):
-        # Add logic to clear the data_entry field
-        pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     root = tk.Tk()
