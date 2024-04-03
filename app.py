@@ -50,6 +50,33 @@ class QRCodeGeneratorApp:
         self.background_color_entry3 = tk.Entry(self.options_frame)
         self.background_color_entry3.pack()
 
+        # Create a Frame for buttons
+        self.button_frame = tk.Frame(self.root)
+        self.button_frame.pack(pady=10)
+
+        # Create Generate, Save, and Clear buttons
+        self.generate_button = tk.Button(self.button_frame, text="Generate", command=self.generate_qr_code)
+        self.generate_button.pack(side="left", padx=5)
+
+        self.save_button = tk.Button(self.button_frame, text="Save", command=self.save_qr_code)
+        self.save_button.pack(side="left", padx=5)
+
+        self.clear_button = tk.Button(self.button_frame, text="Clear", command=self.clear_data)
+        self.clear_button.pack(side="left", padx=5)
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
     def toggle_options(self):
         if (self.options_frame.winfo_ismapped()):
             self.options_frame.pack_forget()
@@ -57,6 +84,45 @@ class QRCodeGeneratorApp:
         else:
             self.options_frame.pack()
             self.more_options_button.config(text="Less Options")
+
+    def generate_qr_code(self):
+        # Add logic to generate QR code based on data_entry field
+        pass
+
+    def save_qr_code(self):
+        # Add logic to save the generated QR code
+        pass
+
+    def clear_data(self):
+        # Add logic to clear the data_entry field
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
