@@ -1,5 +1,8 @@
 import tkinter as tk
 from styles import style_labels, style_buttons, style_frames, style_entries
+import qrcode
+from PIL import ImageTk, Image
+from tkinter import messagebox
 
 class QRCodeGeneratorApp:
     def __init__(self, root):
@@ -33,12 +36,12 @@ class QRCodeGeneratorApp:
         self.background_color_entry = tk.Entry(self.options_frame)
         self.background_color_entry.pack(pady=(0,20))
 
-        self.tile_size_label = tk.Label(self.options_frame, text="Tile size:")
+        self.tile_size_label = tk.Label(self.options_frame, text="Box size (in pixels):")
         self.tile_size_label.pack(pady=(0,10))
         self.tile_size_entry = tk.Entry(self.options_frame)
         self.tile_size_entry.pack(pady=(0,20))
 
-        self.quiet_zone_label = tk.Label(self.options_frame, text="Quiet zone size:")
+        self.quiet_zone_label = tk.Label(self.options_frame, text="Quiet zone size (in boxes):")
         self.quiet_zone_label.pack(pady=(0,10))
         self.quiet_zone_entry = tk.Entry(self.options_frame)
         self.quiet_zone_entry.pack(pady=(0,20))
@@ -48,7 +51,7 @@ class QRCodeGeneratorApp:
         self.button_frame.pack(pady=10)
 
         # Generate, Save, Clear buttons
-        self.generate_button = tk.Button(self.button_frame, text="Generate")
+        self.generate_button = tk.Button(self.button_frame, text="Generate", command=self.generate)
         self.generate_button.pack(side="left", padx=5, pady=(0,10))
 
         self.save_button = tk.Button(self.button_frame, text="Save")
@@ -77,6 +80,37 @@ class QRCodeGeneratorApp:
         else:
             self.options_frame.pack()
             self.more_options_button.config(text="Less Options")
+
+    # functionality
+    def generate(self):
+        data = self.data_entry.get()
+
+        fill_color = self.color_entry.get()
+        back_color = self.background_color_entry.get()
+        box_size = self.tile_size_entry.get()
+        quiet_zone = self.quiet_zone_entry.get()
+
+        if data:
+            options = {
+                "fill_color": fill_color if fill_color else "black",
+                "back_color": back_color if back_color else "white",
+                "box_size": box_size if box_size else 10,
+                "quiet_zone": quiet_zone if quiet_zone else 4
+            }
+
+            qr = qrcode.QRCode(box_size=int(options["box_size"]), border=int(options["quiet_zone"]))
+            qr.add_data(data)
+            qr.make(fit=True)
+            
+            
+            img = qrcode.make(data)
+            qr_img = qr.make_image(fill_color=options["fill_color"], back_color=options["back_color"])
+            
+            tk_image = ImageTk.PhotoImage(qr_img)
+            self.preview_label.config(image=tk_image)
+            self.preview_label.image = tk_image  # Keep reference to avoid garbage collection
+        else:
+            messagebox.showwarning("No Data Entered", "Please enter data to generate a QR code.")
 
 if __name__ == "__main__":
     root = tk.Tk()
