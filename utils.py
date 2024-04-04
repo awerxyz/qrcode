@@ -1,5 +1,6 @@
 import qrcode
 from PIL import ImageTk
+import tkinter as tk
 
 
 def generate_qr_code(data, options):
@@ -11,5 +12,6 @@ def generate_qr_code(data, options):
     tk_image = ImageTk.PhotoImage(qr_img)
     return tk_image
 
-def clear():
-    pass
+def clear_entry_widgets(entry_widgets):
+    for entry_widget in entry_widgets:
+        entry_widget.delete(0, tk.END)

@@ -2,6 +2,7 @@ import tkinter as tk
 from styles import style_labels, style_buttons, style_frames, style_entries
 from more_options import MoreOptions
 from qr_generator import QRGenerator
+from entry_manager import EntryManager
 
 class QRCodeGeneratorApp:
     def __init__(self, root):
@@ -72,14 +73,22 @@ class QRCodeGeneratorApp:
         entries = [self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry]
         style_entries(entries)
 
+        # instantiate imported classes
         self.more_options = MoreOptions(self.options_frame, self.more_options_button)
         self.more_options_button.config(command=self.more_options.toggle_options)
 
         self.qr_generator = QRGenerator(self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry, self.preview_label)
         self.generate_button.config(command=self.generate_qr_wrapper)
 
+        self.entry_manager = EntryManager([self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry])
+        self.clear_button.config(command=self.clear_entries)
+
+    # imported methods
     def generate_qr_wrapper(self):
         self.qr_generator.generate()
+
+    def clear_entries(self):
+        self.entry_manager.clear_entries()
 
 if __name__ == "__main__":
     root = tk.Tk()
