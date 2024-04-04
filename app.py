@@ -1,8 +1,7 @@
 import tkinter as tk
-from styles import style_labels, style_buttons, style_frames, style_entries
-import qrcode
-from PIL import ImageTk, Image
 from tkinter import messagebox
+from styles import style_labels, style_buttons, style_frames, style_entries
+from utils import generate_qr_code
 
 class QRCodeGeneratorApp:
     def __init__(self, root):
@@ -84,33 +83,28 @@ class QRCodeGeneratorApp:
     # functionality
     def generate(self):
         data = self.data_entry.get()
-
         fill_color = self.color_entry.get()
         back_color = self.background_color_entry.get()
         box_size = self.tile_size_entry.get()
         quiet_zone = self.quiet_zone_entry.get()
 
-        if data:
-            options = {
-                "fill_color": fill_color if fill_color else "black",
-                "back_color": back_color if back_color else "white",
-                "box_size": box_size if box_size else 10,
-                "quiet_zone": quiet_zone if quiet_zone else 4
-            }
+        try:
+            if data:
+                options = {
+                    "fill_color": fill_color if fill_color else "black",
+                    "back_color": back_color if back_color else "white",
+                    "box_size": box_size if box_size else 10,
+                    "quiet_zone": quiet_zone if quiet_zone else 4
+                }
 
-            qr = qrcode.QRCode(box_size=int(options["box_size"]), border=int(options["quiet_zone"]))
-            qr.add_data(data)
-            qr.make(fit=True)
-            
-            
-            img = qrcode.make(data)
-            qr_img = qr.make_image(fill_color=options["fill_color"], back_color=options["back_color"])
-            
-            tk_image = ImageTk.PhotoImage(qr_img)
-            self.preview_label.config(image=tk_image)
-            self.preview_label.image = tk_image  # Keep reference to avoid garbage collection
-        else:
-            messagebox.showwarning("No Data Entered", "Please enter data to generate a QR code.")
+                tk_image = generate_qr_code(data, options)
+                self.preview_label.config(image=tk_image)
+                self.preview_label.image = tk_image
+            else:
+                messagebox.showwarning("No Data Entered", "Please enter data in order to generate a QR code.")
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Enter valid color name or hex code.\nBox size and quiet zone must be integers.")
+            return
 
 if __name__ == "__main__":
     root = tk.Tk()
