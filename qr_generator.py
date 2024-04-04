@@ -1,7 +1,8 @@
 # handle the "Generate" button 
-
 from tkinter import messagebox
 from utils import generate_qr_code
+
+from tkinter import filedialog
 
 class QRGenerator:
     def __init__(self, data_entry, color_entry, background_color_entry, tile_size_entry, quiet_zone_entry, preview_label):
@@ -36,3 +37,11 @@ class QRGenerator:
         except ValueError:
             messagebox.showerror("Invalid Input", "Enter valid color name or hex code.\nBox size and quiet zone must be integers.")
             return
+    # method for saving the generated image
+    def save_qr_code(self):
+        file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png"), ("All files", "*.*")])
+        if file_path:
+            qr_img = self.preview_label.image
+            qr_img = qr_img._PhotoImage__photo.subsample(3)  # Adjust subsampling factor as needed
+            qr_img.write(file_path)
+            messagebox.showinfo("Save Successful", "QR code saved successfully.")

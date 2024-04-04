@@ -3,7 +3,7 @@ from app import QRCodeGeneratorApp
 
 def main():
     root = tk.Tk()
-    app = QRCodeGeneratorApp(root)
+    QRCodeGeneratorApp(root)
     root.mainloop()
 
 if __name__ == "__main__":

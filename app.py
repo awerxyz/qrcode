@@ -83,6 +83,8 @@ class QRCodeGeneratorApp:
         self.entry_manager = EntryManager([self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry])
         self.clear_button.config(command=self.clear_entries)
 
+        self.save_button.config(command=self.save_qr_code)
+
     # imported methods
     def generate_qr_wrapper(self):
         self.qr_generator.generate()
@@ -90,7 +92,12 @@ class QRCodeGeneratorApp:
     def clear_entries(self):
         self.entry_manager.clear_entries()
 
+    def save_qr_code(self):
+        self.qr_generator.save_qr_code()
+
+
+
 if __name__ == "__main__":
     root = tk.Tk()
-    app = QRCodeGeneratorApp(root)
+    QRCodeGeneratorApp(root)
     root.mainloop()
