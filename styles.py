@@ -1,3 +1,5 @@
+# set styles to the widgets
+
 def style_labels(labels):
     for label in labels:
         label.config(fg="white", bg="#15141b")
