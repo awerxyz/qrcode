@@ -1,16 +1,65 @@
 import tkinter as tk
 from styles import style_labels, style_buttons, style_frames, style_entries
-from more_options import MoreOptions
-from qr_generator import QRGenerator
-from entry_manager import EntryManager
+from utils import generate_qr_code, clear_entry_widgets
+from tkinter import filedialog, messagebox
 
 class QRCodeGeneratorApp:
+    """A simple QR code generator application using tkinter.
+
+    Attributes
+    ----------
+    root : tk.Tk
+        The root window of the application.
+    preview_label : tk.Label
+        The label for displaying instructions and the QR code.
+    data_label : tk.Label
+        The label for entering data.
+    data_entry : tk.Entry
+        The entry widget for data input.
+    more_options_button : tk.Button
+        The button for toggling additional options.
+    options_frame : tk.Frame
+        The frame containing additional options.
+    color_label : tk.Label
+        The label for color input.
+    color_entry : tk.Entry
+        The entry widget for color input.
+    background_color_label : tk.Label
+        The label for background color input.
+    background_color_entry : tk.Entry
+        The entry widget for background color input.
+    tile_size_label : tk.Label
+        The label for tile size input.
+    tile_size_entry : tk.Entry
+        The entry widget for tile size input.
+    quiet_zone_label : tk.Label
+        The label for quiet zone size input.
+    quiet_zone_entry : tk.Entry
+        The entry widget for quiet zone size input.
+    button_frame : tk.Frame
+        The frame containing generate, save, and clear buttons.
+    generate_button : tk.Button
+        The button for generating the QR code.
+    save_button : tk.Button
+        The button for saving the QR code.
+    clear_button : tk.Button
+        The button for clearing input fields.
+    """
+
     def __init__(self, root):
+        """Initialize the QRCodeGeneratorApp.
+
+        Parameters
+        ----------
+        root : tk.Tk
+            The root window of the application.
+        """
+
         self.root = root
         self.root.title("QR Code Generator")
 
-        # Create a Label to display instructions and QR code preview
-        self.preview_label = tk.Label(self.root, text="Instructions:\nEnter the data to encode into the QR code.\nClick 'generate' to generate the QR code preview. \n Click 'save' to save the generated picture on your machine.\n")
+        # instructions & later QR code display lable
+        self.preview_label = tk.Label(self.root, text="Instructions:\nEnter the data to encode into the QR code.\nClick 'Generate' to generate the QR code preview. \n Click 'Save' to save the generated picture on your machine.\n")
         self.preview_label.pack(pady=10)
 
         # enter data label & field
@@ -19,8 +68,8 @@ class QRCodeGeneratorApp:
         self.data_entry = tk.Entry(self.root)
         self.data_entry.pack(pady=10)
 
-        # "More Options" button
-        self.more_options_button = tk.Button(self.root, text="More Options")
+        # More Options button
+        self.more_options_button = tk.Button(self.root, text="More Options", command=self.toggle_options)
         self.more_options_button.pack(pady=10)
 
         # aditional options frame
@@ -51,53 +100,103 @@ class QRCodeGeneratorApp:
         self.button_frame.pack(pady=10)
 
         # Generate, Save, Clear buttons
-        self.generate_button = tk.Button(self.button_frame, text="Generate")
+        self.generate_button = tk.Button(self.button_frame, text="Generate", command=self.generate)
         self.generate_button.pack(side="left", padx=5, pady=(0,10))
 
-        self.save_button = tk.Button(self.button_frame, text="Save")
+        self.save_button = tk.Button(self.button_frame, text="Save", command=self.save)
         self.save_button.pack(side="left", padx=5, pady=(0,10))
 
-        self.clear_button = tk.Button(self.button_frame, text="Clear")
+        self.clear_button = tk.Button(self.button_frame, text="Clear", command=self.clear)
         self.clear_button.pack(side="left", padx=5, pady=(0,10))
 
         # styles
-        labels = [self.preview_label, self.data_label, self.color_label, self.background_color_label, self.tile_size_label, self.quiet_zone_label]
-        style_labels(labels)
+        self.labels = [self.preview_label, self.data_label, self.color_label, self.background_color_label, self.tile_size_label, self.quiet_zone_label]
+        style_labels(self.labels)
 
-        buttons = [self.more_options_button, self.generate_button, self.save_button, self.clear_button]
-        style_buttons(buttons)
+        self.buttons = [self.more_options_button, self.generate_button, self.save_button, self.clear_button]
+        style_buttons(self.buttons)
 
-        frames = [self.root, self.options_frame, self.button_frame]
-        style_frames(frames)
+        self.frames = [self.root, self.options_frame, self.button_frame]
+        style_frames(self.frames)
         
-        entries = [self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry]
-        style_entries(entries)
+        self.entries = [self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry]
+        style_entries(self.entries)
 
-        # instantiate imported classes
-        self.more_options = MoreOptions(self.options_frame, self.more_options_button)
-        self.more_options_button.config(command=self.more_options.toggle_options)
+    def toggle_options(self):
+        """Toggle the display of additional options frame.
 
-        self.qr_generator = QRGenerator(self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry, self.preview_label)
-        self.generate_button.config(command=self.generate_qr_wrapper)
+        Toggles the display of the additional options frame based on it's current state.
+        Updates the text of the more_options_button accordingly.
+        """
 
-        self.entry_manager = EntryManager([self.data_entry, self.color_entry, self.background_color_entry, self.tile_size_entry, self.quiet_zone_entry])
-        self.clear_button.config(command=self.clear_entries)
+        if (self.options_frame.winfo_ismapped()):
+            self.options_frame.pack_forget()
+            self.more_options_button.config(text="More Options")
+        else:
+            self.options_frame.pack()
+            self.more_options_button.config(text="Less Options")
 
-        self.save_button.config(command=self.save_qr_code)
+    def generate(self):
+        """Generate the QR code based on user input.
 
-    # imported methods
-    def generate_qr_wrapper(self):
-        self.qr_generator.generate()
+        Reads user input from the data_entry and options_frame to generate a QR code.
+        Displays the generated QR code in the preview_label.
+        """
 
-    def clear_entries(self):
-        self.entry_manager.clear_entries()
+        data = self.data_entry.get()
+        fill_color = self.color_entry.get()
+        back_color = self.background_color_entry.get()
+        box_size = self.tile_size_entry.get()
+        quiet_zone = self.quiet_zone_entry.get()
 
-    def save_qr_code(self):
-        self.qr_generator.save_qr_code()
+        try:
+            if data:
+                options = {
+                    "fill_color": fill_color if fill_color else "black",
+                    "back_color": back_color if back_color else "white",
+                    "box_size": box_size if box_size else 10,
+                    "quiet_zone": quiet_zone if quiet_zone else 4
+                }
 
+                tk_image = generate_qr_code(data, options)
+                self.preview_label.config(image=tk_image)
+                self.preview_label.image = tk_image
+            else:
+                messagebox.showwarning("No Data", "Please enter data in order to generate a QR code.")
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Enter valid color name or hex code.\nBox size and quiet zone must be integers.")
+            return
 
+    def save(self):
+        """Save the generated QR code.
+
+        Allows the user to select a file path to save the generated QR code image.
+        """
+
+        try:    
+            data = self.data_entry.get()
+            if data:
+                file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png"), ("All files", "*.*")])
+                if file_path:
+                    qr_img = self.preview_label.image
+                    qr_img = qr_img._PhotoImage__photo.subsample(3)
+                    qr_img.write(file_path)
+                    messagebox.showinfo("Save Successful", "QR code saved successfully.")
+            else:
+                messagebox.showwarning("No Data", "Enter data in order to save a QR code.")
+        except AttributeError:
+            messagebox.showwarning("No QR Code Generated", "Generate the QR code in order to save it.")
+
+    def clear(self):
+        """
+        Clear all input fields.
+
+        Clears all the entry widgets in the entries list.
+        """
+
+        clear_entry_widgets(self.entries)
 
 if __name__ == "__main__":
     root = tk.Tk()
-    QRCodeGeneratorApp(root)
+    app = QRCodeGeneratorApp(root)
     root.mainloop()
