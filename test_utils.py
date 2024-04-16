@@ -1,5 +1,6 @@
 import pytest
 from utils import generate_qr_code
+import tkinter as tk
 
 def test_generate_qr_code_default_options():
     data = "Test Data"
