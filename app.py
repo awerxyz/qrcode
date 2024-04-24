@@ -1,3 +1,8 @@
+"""app.py
+
+This file contains the main application class for the QR code generator app using tkinter.
+"""
+
 import tkinter as tk
 from styles import style_labels, style_buttons, style_frames, style_entries
 from utils import generate_qr_code, clear_entry_widgets

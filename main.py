@@ -1,3 +1,8 @@
+"""main.py
+
+This file contains the entry point for the QR Code Generator application.
+"""
+
 import tkinter as tk
 from app import QRCodeGeneratorApp
 

@@ -1,3 +1,8 @@
+"""utils.py
+
+This file contains utility functions for generating QR codes and clearing entry widgets.
+"""
+
 import qrcode
 from PIL import ImageTk
 import tkinter as tk

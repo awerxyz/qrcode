@@ -1,3 +1,8 @@
+"""styles.py
+
+This file contains utility functions for styling tkinter widgets.
+"""
+
 def style_labels(labels):
     """Apply styling to a list of Tkinter Label widgets.
 

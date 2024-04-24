@@ -1,3 +1,7 @@
+"""test_utils.py
+
+This file contains unit tests for the utility functions in utils.py.
+"""
 import tkinter as tk
 from utils import clear_entry_widgets, generate_qr_code
 
