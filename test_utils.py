@@ -1,50 +1,29 @@
 import pytest
-from utils import generate_qr_code
 import tkinter as tk
+from utils import clear_entry_widgets
 
-def test_generate_qr_code_default_options():
-    data = "Test Data"
-    options = {}
-    
-    tk_image = generate_qr_code(data, options)
-    
-    assert tk_image is not None
-    assert isinstance(tk_image, type(tk.PhotoImage()))
+def test_clear_entry_widgets():
+    # Create some sample Entry widgets
+    root = tk.Tk()
+    entry1 = tk.Entry(root)
+    entry2 = tk.Entry(root)
+    entry3 = tk.Entry(root)
 
-def test_generate_qr_code_custom_options():
-    data = "Custom Test Data"
-    options = {
-        "fill_color": "red",
-        "back_color": "yellow",
-        "box_size": 10,
-        "quiet_zone": 2
-    }
-    
-    tk_image = generate_qr_code(data, options)
-    
-    assert tk_image is not None
-    assert isinstance(tk_image, type(tk.PhotoImage()))
+    # Set some initial text in the Entry widgets
+    entry1.insert(0, "Sample Text 1")
+    entry2.insert(0, "Sample Text 2")
+    entry3.insert(0, "Sample Text 3")
 
-def test_generate_qr_code_missing_options():
-    data = "Test Data"
-    options = {
-        "fill_color": "red",
-        "box_size": 10
-    }
-    
-    tk_image = generate_qr_code(data, options)
-    
-    assert tk_image is not None
-    assert isinstance(tk_image, type(tk.PhotoImage()))
+    # List of sample Entry widgets
+    entry_widgets = [entry1, entry2, entry3]
 
-def test_generate_qr_code_invalid_options():
-    data = "Test Data"
-    options = {
-        "fill_color": "invalid_color",
-        "back_color": "invalid_color",
-        "box_size": "invalid_size",
-        "quiet_zone": "invalid_zone"
-    }
-    
-    with pytest.raises(ValueError):
-        generate_qr_code(data, options)
+    # Call clear_entry_widgets function
+    clear_entry_widgets(entry_widgets)
+
+    # Check if the Entry widgets are cleared
+    assert entry1.get() == ""
+    assert entry2.get() == ""
+    assert entry3.get() == ""
+
+    # Destroy the Tkinter root window
+    root.destroy()
