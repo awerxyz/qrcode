@@ -1,6 +1,5 @@
 venv/
 __pycache__/
-*txt
 .gitignore
 .pytest_cache
 .coverage
