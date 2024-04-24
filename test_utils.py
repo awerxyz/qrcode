@@ -1,4 +1,3 @@
-import pytest
 import tkinter as tk
 from utils import clear_entry_widgets, generate_qr_code
 
