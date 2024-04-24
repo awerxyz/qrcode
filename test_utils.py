@@ -1,16 +1,16 @@
-"""test_utils.py
-
-This file contains unit tests for the utility functions in utils.py.
-"""
+"""This file contains unit tests for the utility functions in utils.py."""
 import tkinter as tk
 from utils import clear_entry_widgets, generate_qr_code
+
 
 def test_generate_qr_code():
     """Test the generate_qr_code function.
 
     This function tests the generate_qr_code function from utils.py.
-    It creates a temporary Tkinter root window, defines sample data and options,
-    calls generate_qr_code to generate a QR code, and then checks if the returned
+    It creates a temporary Tkinter root window,
+    defines sample data and options,
+    calls generate_qr_code to generate a QR code,
+    and then checks if the returned
     Tkinter PhotoImage object is not None.
 
     Returns
@@ -32,6 +32,7 @@ def test_generate_qr_code():
     assert tk_image is not None
 
     root.destroy()
+
 
 def test_clear_entry_widgets():
     """Test the clear_entry_widgets function.

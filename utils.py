@@ -1,11 +1,9 @@
-"""utils.py
-
-This file contains utility functions for generating QR codes and clearing entry widgets.
-"""
+"""This file contains utility functions for generating QR codes."""
 
 import qrcode
 from PIL import ImageTk
 import tkinter as tk
+
 
 def generate_qr_code(data, options):
     """Generate a QR code image based on the provided data and options.
@@ -35,14 +33,16 @@ def generate_qr_code(data, options):
     The options dictionary can contain keys for 'fill_color', 'back_color',
     'box_size', and 'quiet_zone'. If a key is missing, default values are used.
     """
-
-    qr = qrcode.QRCode(box_size=int(options["box_size"]), border=int(options["quiet_zone"]))
+    qr = qrcode.QRCode(box_size=int(options["box_size"]),
+                       border=int(options["quiet_zone"]))
     qr.add_data(data)
     qr.make(fit=True)
     qrcode.make(data)
-    qr_img = qr.make_image(fill_color=options["fill_color"], back_color=options["back_color"])
+    qr_img = qr.make_image(fill_color=options["fill_color"],
+                           back_color=options["back_color"])
     tk_image = ImageTk.PhotoImage(qr_img)
     return tk_image
+
 
 def clear_entry_widgets(entry_widgets):
     """Clear the content of a list of Tkinter Entry widgets.
@@ -56,6 +56,5 @@ def clear_entry_widgets(entry_widgets):
     -------
     None
     """
-
     for entry_widget in entry_widgets:
         entry_widget.delete(0, tk.END)
