@@ -60,7 +60,6 @@ class QRCodeGeneratorApp:
         self.root = root
         self.root.title("QR Code Generator")
 
-        # instructions & later QR code display lable
         self.preview_label = tk.Label(self.root, text="Instructions:"
                                       "\nEnter the data to "
                                       "encode into the QR code."
@@ -71,18 +70,15 @@ class QRCodeGeneratorApp:
                                       "picture on your machine.\n")
         self.preview_label.pack(pady=10)
 
-        # enter data label & field
         self.data_label = tk.Label(self.root, text="Enter Data:")
         self.data_label.pack()
         self.data_entry = tk.Entry(self.root)
         self.data_entry.pack(pady=10)
 
-        # More Options button
         self.more_options_button = tk.Button(self.root, text="More Options",
                                              command=self.toggle_options)
         self.more_options_button.pack(pady=10)
 
-        # aditional options frame
         self.options_frame = tk.Frame(self.root)
 
         self.color_label = tk.Label(self.options_frame, text="Color:")
@@ -108,11 +104,9 @@ class QRCodeGeneratorApp:
         self.quiet_zone_entry = tk.Entry(self.options_frame)
         self.quiet_zone_entry.pack(pady=(0, 20))
 
-        # frame for Generate, Save, Clear buttons
         self.button_frame = tk.Frame(self.root)
         self.button_frame.pack(pady=10)
 
-        # Generate, Save, Clear buttons
         self.generate_button = tk.Button(self.button_frame, text="Generate",
                                          command=self.generate)
         self.generate_button.pack(side="left", padx=5, pady=(0, 10))
@@ -125,7 +119,6 @@ class QRCodeGeneratorApp:
                                       command=self.clear)
         self.clear_button.pack(side="left", padx=5, pady=(0, 10))
 
-        # styles
         self.labels = [self.preview_label,
                        self.data_label,
                        self.color_label,
