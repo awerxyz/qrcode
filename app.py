@@ -228,6 +228,14 @@ class QRCodeGeneratorApp:
 
 
 if __name__ == "__main__":
+    """Main entry point of the application.
+
+    This block of code initializes a Tkinter root window, creates an instance
+    of the QRCodeGeneratorApp class
+    and starts the Tkinter event loop to handle
+    user interactions.
+
+    """
     root = tk.Tk()
     app = QRCodeGeneratorApp(root)
     root.mainloop()

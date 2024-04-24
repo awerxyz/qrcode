@@ -21,4 +21,10 @@ def main():
 
 
 if __name__ == "__main__":
+    """Entry point for the application execution.
+
+    This block of code checks if the script is being run as the main program.
+    If it is, the `main()` function is called to start the application.
+
+    """
     main()
