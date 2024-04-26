@@ -1,5 +1,8 @@
-"""This file contains the entry point for the QR Code Generator application."""
+"""This file contains the entry point for the QR Code Generator application.
 
+.. include:: README.md
+
+"""
 import tkinter as tk
 from app import QRCodeGeneratorApp
 

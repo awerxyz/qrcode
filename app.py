@@ -7,7 +7,7 @@ from tkinter import filedialog, messagebox
 
 
 class QRCodeGeneratorApp:
-    """A simple QR code generator application using tkinter.
+    """A QR code generator application using tkinter.
 
     Attributes
     ----------
